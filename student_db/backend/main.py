@@ -63,3 +63,32 @@ def read_students(
 
     return students
 
+
+# Update Student
+@app.put("/students/{student_id}", response_model=schemas.StudentResponse)
+def update_student(
+    student_id: int,
+    student: schemas.StudentUpdate,
+    db: Session = Depends(get_db)
+):
+    db_student = db.query(models.Student).filter(
+        models.Student.id == student_id
+    ).first()
+
+    # Check if student exists
+    if db_student is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Student not found"
+        )
+
+    # Update fields
+    db_student.name = student.name
+    db_student.age = student.age
+    db_student.email = student.email
+
+    # Save changes
+    db.commit()
+    db.refresh(db_student)
+
+    return db_student
