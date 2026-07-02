@@ -9,3 +9,4 @@ class Student(Base):
     name = Column(String(50), nullable=False)
     age = Column(Integer, nullable=False)
     email = Column(String(100), unique=True, nullable=False)
+

@@ -30,3 +30,4 @@ def get_student(db: Session, student_id: int):
 def get_students(db: Session):
     return db.query(models.Student).all()
 
+
